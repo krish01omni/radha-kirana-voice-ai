@@ -7,6 +7,8 @@
 [![Google Gemini](https://img.shields.io/badge/LLM-Gemini%20Flash%20Lite-4285F4.svg?logo=google)](https://ai.google.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+> 📄 **[Read the 1-Page Solution Pitch (SOLUTION_PITCH.md)](SOLUTION_PITCH.md)**: Why India's 12 million kirana stores need voice-first ordering with zero hardware cost.
+
 **Radha** is a production-grade, zero-hardware Indian Kirana Voice AI Assistant designed for retail grocery stores, mom-and-pop shops, and neighborhood markets. 
 
 Customers scan a physical QR code standee on the store counter using any standard smartphone camera (no mobile app installation required), launching a mobile browser phone that allows them to speak their grocery order in natural **Hindi, Hinglish, or regional dialects**. Radha listens, acknowledges items in real-time, calculates whole-rupee bills, verifies order completeness, inquires whether the customer wants home delivery or store pickup, collects contact details, and logs confirmed orders directly into the shop owner's Excel spreadsheet and Google Sheets.

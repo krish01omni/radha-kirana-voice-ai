@@ -44,6 +44,8 @@ class SheetsSyncManager:
     def __init__(self, excel_path: str = "data/kirana_store.xlsx", spreadsheet_id: Optional[str] = None):
         self.excel_path = os.path.abspath(excel_path)
         self.spreadsheet_id = spreadsheet_id or os.getenv("SPREADSHEET_ID")
+        self.orders_sheet_id = os.getenv("ORDERS_LOG_SHEET_ID") or self.spreadsheet_id
+        self.price_sheet_id = os.getenv("PRICE_CATALOG_SHEET_ID")
         os.makedirs(os.path.dirname(self.excel_path), exist_ok=True)
         self._initialize_excel_if_needed()
 
@@ -71,7 +73,39 @@ class SheetsSyncManager:
         return text
 
     def get_price_catalog(self) -> Dict[str, Dict[str, Any]]:
-        """Thread-safe read-only access to Price_Catalog."""
+        """Thread-safe read access to Price_Catalog (Cloud Google Sheet with local fallback)."""
+        # 1. Try reading from connected Cloud Google Sheet
+        if getattr(self, "price_sheet_id", None):
+            try:
+                import io, requests
+                url = f"https://docs.google.com/spreadsheets/d/{self.price_sheet_id}/export?format=csv"
+                resp = requests.get(url, timeout=4)
+                if resp.status_code == 200 and resp.text and len(resp.text) > 10:
+                    df = pd.read_csv(io.StringIO(resp.text))
+                    catalog = {}
+                    for _, row in df.iterrows():
+                        raw_name = self.sanitize_field(row.get("Item Name", row.get("item_name", "")))
+                        if not raw_name:
+                            continue
+                        unit = self.sanitize_field(row.get("Unit", row.get("unit", "units")))
+                        try:
+                            price = float(row.get("Price (₹)", row.get("Price", row.get("price", 0.0))))
+                        except (ValueError, TypeError):
+                            price = 0.0
+                        in_stock = str(row.get("In Stock", row.get("in_stock", "Yes"))).strip().lower() in ["yes", "y", "true", "1"]
+                        key = raw_name.lower()
+                        catalog[key] = {
+                            "raw_name": raw_name,
+                            "unit": unit,
+                            "price": price,
+                            "in_stock": in_stock
+                        }
+                    if catalog:
+                        return catalog
+            except Exception:
+                pass
+
+        # 2. Local Excel Master Fallback
         with self._lock:
             try:
                 df = pd.read_excel(self.excel_path, sheet_name="Price_Catalog")
@@ -208,16 +242,21 @@ class SheetsSyncManager:
                 print(f"[SheetsSyncManager Excel Append Error] {e}")
 
         # 2. Secure Google Sheets append
-        if self.spreadsheet_id:
+        target_sheet = getattr(self, "orders_sheet_id", None) or self.spreadsheet_id
+        if target_sheet:
             try:
-                row_values = [str(order_row[col]).replace('"', '""') for col in ORDER_COLUMNS]
-                csv_line = ",".join([f'"{val}"' for val in row_values])
-                safe_cmd = ["gsheets", "mutate", "append", str(self.spreadsheet_id), "Orders_Log!A1", csv_line]
-                res = subprocess.run(safe_cmd, shell=False, capture_output=True, text=True, timeout=10)
+                row_vals = []
+                for col in ORDER_COLUMNS:
+                    v = str(order_row.get(col, "")).replace('"', '""').replace(",", "\\,").replace("\n", " ")
+                    row_vals.append(v)
+                csv_line = ",".join(row_vals)
+                gsheets_cmd = "gsheets.cmd" if os.name == "nt" else "gsheets"
+                safe_cmd = [gsheets_cmd, "mutate", "append", str(target_sheet), "Sheet1", csv_line]
+                res = subprocess.run(safe_cmd, shell=True, capture_output=True, text=True, timeout=10)
                 if res.returncode == 0:
-                    print(f"[SheetsSyncManager] Synced to Google Sheet: {self.spreadsheet_id}")
+                    print(f"[SheetsSyncManager] Synced to Google Sheet: {target_sheet}")
                 else:
-                    print(f"[SheetsSyncManager gsheets warning] {res.stderr}")
+                    print(f"[SheetsSyncManager gsheets warning] {res.stderr.strip()}")
             except Exception as e:
                 print(f"[SheetsSyncManager Google Sheet Sync Error] {e}")
 
