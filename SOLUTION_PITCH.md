@@ -13,7 +13,7 @@ Radha turns any retail counter into an automated voice ordering desk with **zero
 1. **Scan to Call**: A customer points their phone camera at a laminated counter QR standee. It instantly opens a web call on their screen without installing any app.
 2. **Speaks Like a Shopkeeper**: Radha greets the customer in natural Hindi or Hinglish, listens clearly even with loud grinder and traffic noise in the background, notes down items, and calculates the bill in clean, whole rupees.
 3. **Smart Follow-ups**: Instead of making assumptions, Radha asks whether the customer wants home delivery or store pickup, collects their name and room number, and checks if they plan to pay in cash or by UPI.
-4. **Auto-Disconnect & Live Sync**: As soon as the order is confirmed, the call automatically hangs up. The complete itemized bill and address appear immediately on the shop owner's Google Sheet.
+4. **Auto-Disconnect & Live Alerts**: As soon as the order is confirmed, the call automatically hangs up. The complete itemized bill and address appear immediately on the shop owner's Google Sheet and ping their phone with an instant Telegram receipt card.
 
 ---
 

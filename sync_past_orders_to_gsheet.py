@@ -3,9 +3,15 @@ import sys
 import subprocess
 import pandas as pd
 
+from dotenv import load_dotenv
+
+load_dotenv("d:/hack idea/voice_calling_agent/.env")
 sys.stdout.reconfigure(encoding="utf-8")
 
-sheet_id = "1GNGMQxc-Bh1BwgfTMnwxTijiymwmXBNCcqLJE22tO18"
+sheet_id = os.getenv("ORDERS_LOG_SHEET_ID") or os.getenv("SPREADSHEET_ID")
+if not sheet_id:
+    print("[Error] No ORDERS_LOG_SHEET_ID or SPREADSHEET_ID found in environment.")
+    sys.exit(1)
 excel_path = "d:/hack idea/voice_calling_agent/data/kirana_store.xlsx"
 
 df = pd.read_excel(excel_path, sheet_name="Orders_Log")

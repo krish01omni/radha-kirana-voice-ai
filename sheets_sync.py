@@ -260,4 +260,12 @@ class SheetsSyncManager:
             except Exception as e:
                 print(f"[SheetsSyncManager Google Sheet Sync Error] {e}")
 
+        # 3. Instant Telegram Bot Order Notification
+        try:
+            from telegram_notifier import TelegramNotifier
+            notifier = TelegramNotifier()
+            threading.Thread(target=notifier.send_order_alert, args=(order_row,), daemon=True).start()
+        except Exception as e:
+            print(f"[Telegram Notification Trigger Error] {e}")
+
         return order_row

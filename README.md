@@ -51,6 +51,11 @@ Radha enforces a deterministic, loop-free order workflow:
 * **`GNANI` Mode (Production)**: Uses Gnani.ai's `prisma-v3.0` Indic speech-to-text API and `timbre-v2.5` (`Nalini`) natural Indic text-to-speech.
 * **`DEV` Mode (100% Free / Zero API Cost)**: Operates locally using CUDA-accelerated Faster-Whisper (`small`) and Microsoft Edge Neural TTS (`hi-IN-SwaraNeural`).
 
+### 6. Real-Time Telegram Bot Order Notifications
+* **Instant Shopkeeper Alert**: The moment an order is finalized by Radha, a background thread instantly dispatches a formatted receipt card to the store owner's personal Telegram.
+* **Clean Receipt Card**: Includes customer name, contact, home delivery address, payment method, itemized list with quantities and sub-totals, and grand bill in whole rupees.
+* **Zero Dedicated Hardware**: Replaces bulky, fee-charging counter soundboxes with free, private, instant phone alerts.
+
 ---
 
 ## Project Structure
@@ -62,9 +67,11 @@ voice_calling_agent/
 ├── requirements.txt          # Python dependencies
 ├── LICENSE                   # MIT Open Source License
 ├── README.md                 # System documentation & setup guide
+├── SOLUTION_PITCH.md         # 1-page humanized retail problem & solution pitch
 ├── app.py                    # FastAPI server & WebSocket 16kHz PCM streaming hub
 ├── agent_core.py             # 7-stage state machine & Google Gemini intent extractor
 ├── sheets_sync.py            # Thread-safe Excel (openpyxl) & Google Sheets sync engine
+├── telegram_notifier.py      # Real-time Telegram Bot receipt notification engine
 ├── gnani_engine.py           # Unified Indic audio driver (Gnani.ai + Edge/Whisper fallback)
 ├── stt_engine.py             # Local CUDA Faster-Whisper transcription fallback
 ├── tts_engine.py             # Local Microsoft Edge Neural TTS fallback
