@@ -1,0 +1,45 @@
+# Environment and secrets (CRITICAL: Never commit real credentials)
+.env
+.env.local
+.env.*.local
+*.env
+
+# Local database, orders, and spreadsheets
+data/*.xlsx
+data/*.csv
+data/kirana_store.xlsx
+recordings/
+*.wav
+*.mp3
+
+# Python cache & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+
+# Tool binaries
+bin/
+*.exe
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Operating System & Editor artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Cloudflare tunnel logs & temporary files
+*.log

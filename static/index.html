@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Radha - Shree Ganesh Kirana Store</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="mobile-frame">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="store-badge">
+        <span class="pulse-dot"></span>
+        <span class="badge-text">Radha AI Online</span>
+      </div>
+      <h1 class="store-name">Shree Ganesh Kirana</h1>
+      <p class="store-tagline">Bolkar Order Karein • Fast Delivery</p>
+    </header>
+
+    <!-- Main Call Card -->
+    <main class="call-container">
+      <!-- Avatar & Status -->
+      <div class="avatar-section">
+        <div class="avatar-ring" id="avatarRing">
+          <div class="avatar-circle">
+            <span class="avatar-initial">R</span>
+          </div>
+        </div>
+        <h2 class="assistant-name">Radha (Assistant)</h2>
+        <p class="call-status" id="callStatus">Tap button to start call</p>
+      </div>
+
+      <!-- Audio Waveform Visualizer -->
+      <div class="waveform-container" id="waveformContainer">
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+      </div>
+
+      <!-- Action Button -->
+      <div class="action-section">
+        <button class="call-btn idle" id="callBtn">
+          <span class="btn-icon" id="btnIcon">📞</span>
+          <span class="btn-label" id="btnLabel">Call Radha</span>
+        </button>
+      </div>
+
+      <!-- Live Transcript / Conversation Box -->
+      <div class="transcript-card" id="transcriptCard">
+        <div class="card-header">
+          <span class="card-title">Live Conversation</span>
+          <span class="lang-tag">Hindi / English</span>
+        </div>
+        <div class="dialog-scroll" id="dialogScroll">
+          <div class="msg-bubble system">
+            Scan complete! Tap 'Call Radha' to speak your grocery order.
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Order Receipt (Shows when items are ordered or call ends) -->
+      <div class="receipt-card hidden" id="receiptCard">
+        <div class="receipt-header">
+          <h3>Order Confirmed! 📦</h3>
+          <span class="receipt-id" id="receiptId">#CALL-001</span>
+        </div>
+        <div class="receipt-body" id="receiptBody">
+          <!-- Items injected via JS -->
+        </div>
+        <div class="receipt-footer">
+          <div class="total-row">
+            <span>Total Bill:</span>
+            <strong id="receiptTotal">₹0.00</strong>
+          </div>
+          <p class="delivery-note" id="receiptAddress">Delivery: Store Pickup</p>
+          <div class="shop-alert-badge">Logged to Store Sheet ✅</div>
+        </div>
+      </div>
+
+      <!-- View Catalog Button for Customer & Shopkeeper -->
+      <div class="footer-actions">
+        <button class="text-btn" id="viewCatalogBtn">📋 View Today's Price List</button>
+      </div>
+    </main>
+  </div>
+
+  <!-- Price Catalog Modal -->
+  <div class="modal-overlay hidden" id="catalogModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Today's Rate List (₹)</h3>
+        <button class="close-btn" id="closeModalBtn">&times;</button>
+      </div>
+      <div class="catalog-list" id="catalogList">
+        <div class="loading-spinner">Loading store prices...</div>
+      </div>
+      <div class="modal-footer">
+        <small>Owner updates prices directly in Excel/Google Sheets.</small>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

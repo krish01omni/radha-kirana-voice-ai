@@ -1,0 +1,22 @@
+# Web Framework & Real-Time Networking
+fastapi>=0.110.0
+uvicorn[standard]>=0.28.0
+websockets>=12.0
+
+# AI & Intent Processing
+google-genai>=0.1.1
+pydantic>=2.6.0
+python-dotenv>=1.0.1
+requests>=2.31.0
+
+# Data Storage & Excel Processing
+pandas>=2.2.0
+openpyxl>=3.1.2
+
+# Free Local Speech Fallbacks
+edge-tts>=6.1.12
+faster-whisper>=1.0.0
+
+# Counter Standee & QR Code Generation
+qrcode[pil]>=7.4.2
+pillow>=10.2.0
